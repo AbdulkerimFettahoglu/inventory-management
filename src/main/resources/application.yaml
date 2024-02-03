@@ -1,4 +1,7 @@
 spring:
+  security:
+    user:
+      password: password
   jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: none
     show-sql: true
