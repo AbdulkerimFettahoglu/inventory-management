@@ -1,10 +1,8 @@
 package dev.kerimfettahoglu.inventorymanagement;
 
-import dev.kerimfettahoglu.inventorymanagement.api.input.ProductNewInput;
-import dev.kerimfettahoglu.inventorymanagement.api.input.ProductUpdateInput;
-import dev.kerimfettahoglu.inventorymanagement.api.input.PurchaseNewInput;
-import dev.kerimfettahoglu.inventorymanagement.api.input.PurchaseUpdateInput;
+import dev.kerimfettahoglu.inventorymanagement.api.input.*;
 import dev.kerimfettahoglu.inventorymanagement.entity.Category;
+import dev.kerimfettahoglu.inventorymanagement.entity.Exit;
 import dev.kerimfettahoglu.inventorymanagement.entity.Product;
 import dev.kerimfettahoglu.inventorymanagement.entity.Purchase;
 import lombok.experimental.UtilityClass;
@@ -68,6 +66,29 @@ public class TestUtil {
         PurchaseUpdateInput input = new PurchaseUpdateInput();
         input.setId(1L);
         input.setItemCost(2D);
+        input.setItemCount(40);
+        input.setProductId(1L);
+        return input;
+    }
+
+    public static Exit dummyExit() {
+        Exit input = new Exit();
+        input.setId(1L);
+        input.setProduct(dummyProduct());
+        input.setItemCount(40);
+        return input;
+    }
+
+    public static ExitNewInput dummyExitNewInput() {
+        ExitNewInput input = new ExitNewInput();
+        input.setItemCount(40);
+        input.setProductId(1L);
+        return input;
+    }
+
+    public static ExitUpdateInput dummyExitUpdateInput() {
+        ExitUpdateInput input = new ExitUpdateInput();
+        input.setId(1L);
         input.setItemCount(40);
         input.setProductId(1L);
         return input;
