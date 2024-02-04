@@ -2,11 +2,8 @@ package dev.kerimfettahoglu.inventorymanagement.service;
 
 import dev.kerimfettahoglu.inventorymanagement.api.input.ExitNewInput;
 import dev.kerimfettahoglu.inventorymanagement.api.input.ExitUpdateInput;
-import dev.kerimfettahoglu.inventorymanagement.api.input.PurchaseNewInput;
-import dev.kerimfettahoglu.inventorymanagement.api.input.PurchaseUpdateInput;
 import dev.kerimfettahoglu.inventorymanagement.entity.Exit;
 import dev.kerimfettahoglu.inventorymanagement.entity.Product;
-import dev.kerimfettahoglu.inventorymanagement.entity.Purchase;
 import dev.kerimfettahoglu.inventorymanagement.exception.DataNotFoundException;
 import dev.kerimfettahoglu.inventorymanagement.repository.ExitRepository;
 import dev.kerimfettahoglu.inventorymanagement.repository.ProductRepository;
@@ -22,6 +19,7 @@ public class ExitService {
 
     private final ProductRepository productRepository;
     private final ExitRepository exitRepository;
+    private final InventoryService inventoryService;
 
     public Exit create(ExitNewInput input) {
         Optional<Product> optionalProduct = productRepository.findById(input.getProductId());
@@ -29,8 +27,8 @@ public class ExitService {
             Exit exit = new Exit();
             exit.setItemCount(input.getItemCount());
             exit.setProduct(optionalProduct.get());
+            inventoryService.makeExitFromInventory(exit);
             exitRepository.save(exit);
-            //TODO: Product kaydındaki item count ve total cost güncellenmeli.
             return exit;
         } else {
             throw new DataNotFoundException(input.getProductId());
