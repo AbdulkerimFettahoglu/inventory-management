@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> delet(@RequestParam Long id) {
+    public ResponseEntity<Boolean> delete(@RequestParam Long id) {
         return ResponseEntity.ok(categoryService.delete(id));
     }
 
