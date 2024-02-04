@@ -7,6 +7,7 @@ import dev.kerimfettahoglu.inventorymanagement.entity.Purchase;
 import dev.kerimfettahoglu.inventorymanagement.exception.DataNotFoundException;
 import dev.kerimfettahoglu.inventorymanagement.repository.ProductRepository;
 import dev.kerimfettahoglu.inventorymanagement.repository.PurchaseRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,9 @@ public class PurchaseService {
 
     private final ProductRepository productRepository;
     private final PurchaseRepository purchaseRepository;
+    private final InventoryService inventoryService;
 
+    @Transactional
     public Purchase create(PurchaseNewInput input) {
         Optional<Product> optionalProduct = productRepository.findById(input.getProductId());
         if (optionalProduct.isPresent()) {
@@ -30,7 +33,7 @@ public class PurchaseService {
             Double totalCost = input.getItemCost() * input.getItemCount();
             purchase.setTotalCost(totalCost);
             purchaseRepository.save(purchase);
-            //TODO: Product kaydındaki item count ve total cost güncellenmeli.
+            inventoryService.addItemsToRepository(purchase);
             return purchase;
         } else {
             throw new DataNotFoundException(input.getProductId());

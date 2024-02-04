@@ -29,6 +29,7 @@ public class ProductService {
             product.setCategory(optionalCategory.get());
             product.setItemCount(0);
             product.setTotalCost(0D);
+            product.setMedianCost(0D);
             productRepository.save(product);
             return product;
         } else {
