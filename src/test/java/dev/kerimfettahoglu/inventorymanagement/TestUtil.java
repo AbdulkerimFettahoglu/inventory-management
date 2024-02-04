@@ -19,6 +19,7 @@ public class TestUtil {
 
     public static Product dummyProduct() {
         Product product = new Product();
+        product.setId(1L);
         product.setCategory(dummyCategory());
         product.setName("name");
         product.setBrand("brand");
@@ -47,6 +48,7 @@ public class TestUtil {
 
     public static Purchase dummyPurchase() {
         Purchase input = new Purchase();
+        input.setId(1L);
         input.setProduct(dummyProduct());
         input.setItemCost(2D);
         input.setItemCount(40);
