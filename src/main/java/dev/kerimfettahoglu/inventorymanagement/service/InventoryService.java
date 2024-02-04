@@ -4,6 +4,7 @@ import dev.kerimfettahoglu.inventorymanagement.api.output.InventorySummaryOutput
 import dev.kerimfettahoglu.inventorymanagement.entity.Exit;
 import dev.kerimfettahoglu.inventorymanagement.entity.Product;
 import dev.kerimfettahoglu.inventorymanagement.entity.Purchase;
+import dev.kerimfettahoglu.inventorymanagement.exception.BusinessException;
 import dev.kerimfettahoglu.inventorymanagement.exception.DataNotFoundException;
 import dev.kerimfettahoglu.inventorymanagement.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,8 @@ public class InventoryService {
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             Integer newItemCount = product.getItemCount() - revertPurchase.getItemCount();
+            if (newItemCount < 0)
+                throw new BusinessException("item count value can not fewer than 0 after the operation.");
             Double newTotalCost = product.getTotalCost() - revertPurchase.getTotalCost();
             Double medianCost = newTotalCost / newItemCount.doubleValue();
             product.setItemCount(newItemCount);
@@ -58,6 +61,8 @@ public class InventoryService {
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             Integer newItemCount = product.getItemCount() - exit.getItemCount();
+            if (newItemCount < 0)
+                throw new BusinessException("item count value can not fewer than 0 after the operation.");
             Double newTotalCost = product.getTotalCost() - (product.getMedianCost() * exit.getItemCount());
             Double medianCost = newTotalCost / newItemCount.doubleValue();
             product.setItemCount(newItemCount);
