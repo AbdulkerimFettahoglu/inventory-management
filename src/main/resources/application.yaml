@@ -1,3 +1,4 @@
+init-data: true
 spring:
   security:
     user:
