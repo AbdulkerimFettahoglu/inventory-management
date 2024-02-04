@@ -1,5 +1,6 @@
 package dev.kerimfettahoglu.inventorymanagement.service;
 
+import dev.kerimfettahoglu.inventorymanagement.api.output.InventorySummaryOutput;
 import dev.kerimfettahoglu.inventorymanagement.entity.Exit;
 import dev.kerimfettahoglu.inventorymanagement.entity.Product;
 import dev.kerimfettahoglu.inventorymanagement.entity.Purchase;
@@ -8,6 +9,8 @@ import dev.kerimfettahoglu.inventorymanagement.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -82,6 +85,20 @@ public class InventoryService {
         } else {
             throw new DataNotFoundException(revertExit.getProduct().getId());
         }
+    }
+
+    public InventorySummaryOutput summary() {
+        InventorySummaryOutput summary = new InventorySummaryOutput();
+        Long productCount = productRepository.count();
+        summary.setProductCount(productCount);
+        summary.setTotalCostOfItems(productRepository.totalItemCost());
+        summary.setTotalItemCountInInventory(productRepository.totalItemCount());
+        summary.setTotalMedianCost(productRepository.totalMedianCost() / productCount);
+        Map<Long, Product> productDetails = new HashMap<>();
+        productRepository.findAll().stream()
+                .forEach(product -> productDetails.put(product.getId(), product));
+        summary.setProductDetails(productDetails);
+        return summary;
     }
 
 }
