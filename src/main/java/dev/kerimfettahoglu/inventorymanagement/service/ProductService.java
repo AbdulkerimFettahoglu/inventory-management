@@ -27,6 +27,8 @@ public class ProductService {
             product.setName(input.getName());
             product.setBrand(input.getBrand());
             product.setCategory(optionalCategory.get());
+            product.setItemCount(0);
+            product.setTotalCost(0D);
             productRepository.save(product);
             return product;
         } else {
