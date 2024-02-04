@@ -16,7 +16,7 @@ public class InventoryService {
 
     private final ProductRepository productRepository;
 
-    public Product addItemsToRepository(Purchase purchase) {
+    public Product addItemsToInventory(Purchase purchase) {
         Optional<Product> optionalProduct = productRepository.findById(purchase.getProduct().getId());
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
@@ -33,7 +33,7 @@ public class InventoryService {
         }
     }
 
-    public Product revertFromRepository(Purchase revertPurchase) {
+    public Product revertAddFromInventory(Purchase revertPurchase) {
         Optional<Product> optionalProduct = productRepository.findById(revertPurchase.getProduct().getId());
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();

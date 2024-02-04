@@ -33,7 +33,7 @@ public class PurchaseService {
             Double totalCost = input.getItemCost() * input.getItemCount();
             purchase.setTotalCost(totalCost);
             purchaseRepository.save(purchase);
-            inventoryService.addItemsToRepository(purchase);
+            inventoryService.addItemsToInventory(purchase);
             return purchase;
         } else {
             throw new DataNotFoundException(input.getProductId());
@@ -46,13 +46,13 @@ public class PurchaseService {
             Optional<Purchase> optionalPurchase = purchaseRepository.findById(input.getId());
             if (optionalPurchase.isPresent()) {
                 Purchase purchase = optionalPurchase.get();
-                inventoryService.revertFromRepository(purchase);
+                inventoryService.revertAddFromInventory(purchase);
                 purchase.setItemCost(input.getItemCost());
                 purchase.setItemCount(input.getItemCount());
                 purchase.setProduct(optionalProduct.get());
                 Double totalCost = input.getItemCost() * input.getItemCount();
                 purchase.setTotalCost(totalCost);
-                inventoryService.addItemsToRepository(purchase);
+                inventoryService.addItemsToInventory(purchase);
                 purchaseRepository.save(purchase);
                 return purchase;
             } else {
@@ -87,7 +87,7 @@ public class PurchaseService {
     public Boolean delete(Long id) {
         Optional<Purchase> optionalPurchase = purchaseRepository.findById(id);
         if (optionalPurchase.isPresent()) {
-            inventoryService.revertFromRepository(optionalPurchase.get());
+            inventoryService.revertAddFromInventory(optionalPurchase.get());
             purchaseRepository.delete(optionalPurchase.get());
             return true;
         } else {
