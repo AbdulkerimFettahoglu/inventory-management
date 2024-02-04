@@ -4,6 +4,7 @@ import dev.kerimfettahoglu.inventorymanagement.api.input.ProductNewInput;
 import dev.kerimfettahoglu.inventorymanagement.api.input.ProductUpdateInput;
 import dev.kerimfettahoglu.inventorymanagement.entity.Product;
 import dev.kerimfettahoglu.inventorymanagement.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody ProductNewInput input) {
+    public ResponseEntity<Product> create(@Valid @RequestBody ProductNewInput input) {
         return ResponseEntity.ok(productService.create(input));
     }
 
     @PutMapping
-    public ResponseEntity<Product> update(@RequestBody ProductUpdateInput input) {
+    public ResponseEntity<Product> update(@Valid @RequestBody ProductUpdateInput input) {
         return ResponseEntity.ok(productService.update(input));
     }
 

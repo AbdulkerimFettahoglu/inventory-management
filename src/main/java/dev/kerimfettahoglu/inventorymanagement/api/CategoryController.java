@@ -2,6 +2,7 @@ package dev.kerimfettahoglu.inventorymanagement.api;
 
 import dev.kerimfettahoglu.inventorymanagement.entity.Category;
 import dev.kerimfettahoglu.inventorymanagement.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody Category category) {
+    public ResponseEntity<Category> create(@Valid @RequestBody Category category) {
         return ResponseEntity.ok(categoryService.create(category));
     }
 
     @PutMapping
-    public ResponseEntity<Category> update(@RequestBody Category category) {
+    public ResponseEntity<Category> update(@Valid @RequestBody Category category) {
         return ResponseEntity.ok(categoryService.update(category));
     }
 
