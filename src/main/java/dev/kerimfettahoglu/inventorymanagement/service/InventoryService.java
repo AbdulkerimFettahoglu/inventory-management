@@ -67,4 +67,21 @@ public class InventoryService {
         }
     }
 
+    public Product revertExitFromInventory(Exit revertExit) {
+        Optional<Product> optionalProduct = productRepository.findById(revertExit.getProduct().getId());
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            Integer totalItemCount = product.getItemCount() + revertExit.getItemCount();
+            Double totalCost = product.getTotalCost() + (revertExit.getItemCount() * product.getMedianCost());
+            Double medianCost = totalCost / totalItemCount.doubleValue();
+            product.setItemCount(totalItemCount);
+            product.setTotalCost(totalCost);
+            product.setMedianCost(medianCost);
+            productRepository.save(product);
+            return product;
+        } else {
+            throw new DataNotFoundException(revertExit.getProduct().getId());
+        }
+    }
+
 }

@@ -40,12 +40,12 @@ public class ExitService {
         if (optionalProduct.isPresent()) {
             Optional<Exit> optionalExit = exitRepository.findById(input.getId());
             if (optionalExit.isPresent()) {
-                //TODO: önceki puchase adımında yapılanlar product entitysinden geri alınmalı
                 Exit exit = optionalExit.get();
+                inventoryService.revertExitFromInventory(exit);
                 exit.setItemCount(input.getItemCount());
                 exit.setProduct(optionalProduct.get());
+                inventoryService.makeExitFromInventory(exit);
                 exitRepository.save(exit);
-                //TODO: Product kaydındaki item count ve total cost güncellenmeli.
                 return exit;
             } else {
                 throw new DataNotFoundException(input.getId());
@@ -79,7 +79,7 @@ public class ExitService {
     public Boolean delete(Long id) {
         Optional<Exit> optionalExit = exitRepository.findById(id);
         if (optionalExit.isPresent()) {
-            //TODO: önceki puchase adımında yapılanlar product entitysinden geri alınmalı
+            inventoryService.revertExitFromInventory(optionalExit.get());
             exitRepository.delete(optionalExit.get());
             return true;
         } else {
