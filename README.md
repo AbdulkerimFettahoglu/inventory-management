@@ -6,7 +6,7 @@ Yani geliştiricilerin hiç bir şekilde uygulamayı çalıştırmak için "dock
 gerek yoktur. Uygulama başlatıldığında Spring "compose.yaml" dosyasını kullanır ve gerekli bağımlılıkları 
 bilgisayara indirir. (Bu işlemler için uygulamayı Docker kurulu bir makinede çalıştırmalısınız.)
 ## Kurulum
-GitHub reposunu bilgisayarınıza indirdikten sonra proje için kullanılacak Java versiyonunu 17 belirleyin. Ardından 
+GitHub reposunu bilgisayarınıza indirdikten sonra proje için kullanılacak Java versiyonunu 17 olarak belirleyin. Ardından 
 "mvn clean" ve "mvn test" komutlarını koşarak kodun derlenebildiğinden emin olun. Kullanıdığınız IDE' de başlangıç 
 sınıfı "InventoryManagementApplication" olacak şekilde ayarlarınızı yapın ve uygulamayı başlatın. Eğer bilgisayarınızda
 "postgres" in "16" versiyonuna ait Docker imajı yoksa Spring indirecektir (biraz zaman alabilir). Uygulama kullanıma hazır.
@@ -15,7 +15,7 @@ Uygulama ilişkisel veritabanı olarak Postgres kullanıyor. Bağlantı bilgiler
 ```
 jdbc:postgresql://localhost:4832/inventory
 Database Name:inventory
-MySql Port:4832
+Postgres Port:4832
 User Name :myuser
 Password :secret
 ```
@@ -54,8 +54,8 @@ Buradaki tabloların işlevleri:
 ### Product Web Servisleri
 ```
 - localhost:8080/product (POST): yeni bir ürün eklemeyi sağlar
-- localhost:8080/product (PUT): var olan bir ürün düzenlemeyi sağlar
-- localhost:8080/product (GET): var olan tüm ürün görmenizi sağlar
+- localhost:8080/product (PUT): var olan bir ürünü düzenlemeyi sağlar
+- localhost:8080/product (GET): var olan tüm ürünleri görmenizi sağlar
 - localhost:8080/product?id=1 (GET): belitilen id numarasına sahip ürün kaydını döner
 ```
 ### Purchase Web Servisleri
@@ -72,3 +72,14 @@ Buradaki tabloların işlevleri:
 - localhost:8080/exit (GET): var olan tüm envanter çıkışlarını görmenizi sağlar
 - localhost:8080/exit?id=1 (GET): belitilen id numarasına sahip envanter çıkışını döner
 ```
+### Summary Web Servisi
+```
+- localhost:8080/inventory/summary (GET): envanterin o anki durumu hakkında genel bilgi verir.
+```
+- productCount: "Product" tablosunda bulunan toplam ürün tipi sayısını verir.
+- totalItemCountInInventory: Envanter içerisindeki tüm ürün sayılarının toplamını verir.
+- totalCostOfItems: Envanterin toplanması sırasında oluşan maliyeti gösterir.
+- totalMedianCost: Envanterin toplanması sırasında oluşan ürün başına ortalama maliyeti gösterir.
+- productDetails: Her bir ürüne ait sayı, toplam maliyet, ortalama maliyet bilgilerini verir.
+
+![summary.png](summary.png)
