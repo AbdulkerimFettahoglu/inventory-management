@@ -4,6 +4,7 @@ import dev.kerimfettahoglu.inventorymanagement.api.input.PurchaseNewInput;
 import dev.kerimfettahoglu.inventorymanagement.api.input.PurchaseUpdateInput;
 import dev.kerimfettahoglu.inventorymanagement.entity.Purchase;
 import dev.kerimfettahoglu.inventorymanagement.service.PurchaseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class PurchaseController {
     private final PurchaseService purchaseService;
 
     @PostMapping
-    public ResponseEntity<Purchase> create(@RequestBody PurchaseNewInput input) {
+    public ResponseEntity<Purchase> create(@Valid @RequestBody PurchaseNewInput input) {
         return ResponseEntity.ok(purchaseService.create(input));
     }
 
     @PutMapping
-    public ResponseEntity<Purchase> update(@RequestBody PurchaseUpdateInput input) {
+    public ResponseEntity<Purchase> update(@Valid @RequestBody PurchaseUpdateInput input) {
         return ResponseEntity.ok(purchaseService.update(input));
     }
 
