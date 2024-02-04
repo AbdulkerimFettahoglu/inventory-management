@@ -45,15 +45,15 @@ public class PurchaseService {
         if (optionalProduct.isPresent()) {
             Optional<Purchase> optionalPurchase = purchaseRepository.findById(input.getId());
             if (optionalPurchase.isPresent()) {
-                //TODO: önceki puchase adımında yapılanlar product entitysinden geri alınmalı
                 Purchase purchase = optionalPurchase.get();
+                inventoryService.revertFromRepository(purchase);
                 purchase.setItemCost(input.getItemCost());
                 purchase.setItemCount(input.getItemCount());
                 purchase.setProduct(optionalProduct.get());
                 Double totalCost = input.getItemCost() * input.getItemCount();
                 purchase.setTotalCost(totalCost);
+                inventoryService.addItemsToRepository(purchase);
                 purchaseRepository.save(purchase);
-                //TODO: Product kaydındaki item count ve total cost güncellenmeli.
                 return purchase;
             } else {
                 throw new DataNotFoundException(input.getId());
@@ -87,7 +87,7 @@ public class PurchaseService {
     public Boolean delete(Long id) {
         Optional<Purchase> optionalPurchase = purchaseRepository.findById(id);
         if (optionalPurchase.isPresent()) {
-            //TODO: önceki puchase adımında yapılanlar product entitysinden geri alınmalı
+            inventoryService.revertFromRepository(optionalPurchase.get());
             purchaseRepository.delete(optionalPurchase.get());
             return true;
         } else {

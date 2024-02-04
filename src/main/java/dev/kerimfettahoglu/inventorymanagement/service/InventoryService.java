@@ -32,4 +32,21 @@ public class InventoryService {
         }
     }
 
+    public Product revertFromRepository(Purchase revertPurchase) {
+        Optional<Product> optionalProduct = productRepository.findById(revertPurchase.getProduct().getId());
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            Integer newItemCount = product.getItemCount() - revertPurchase.getItemCount();
+            Double newTotalCost = product.getTotalCost() - revertPurchase.getTotalCost();
+            Double medianCost = newTotalCost / newItemCount.doubleValue();
+            product.setItemCount(newItemCount);
+            product.setTotalCost(newTotalCost);
+            product.setMedianCost(medianCost);
+            productRepository.save(product);
+            return product;
+        } else {
+            throw new DataNotFoundException(revertPurchase.getProduct().getId());
+        }
+    }
+
 }
