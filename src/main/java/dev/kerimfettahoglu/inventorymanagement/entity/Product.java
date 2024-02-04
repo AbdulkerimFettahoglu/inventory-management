@@ -31,4 +31,6 @@ public class Product {
 
     private Double totalCost;
 
+    private Double medianCost;
+
 }
